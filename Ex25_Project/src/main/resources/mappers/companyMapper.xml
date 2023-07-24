@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.human.boot.dao.CompanyDAO">
+	<select id="select" resultType="CompanyVO">
+		select * from Company
+	</select>
+	<select id="selectByRef" parameterType="hashmap" resultType="CompanyVO">
+		select * from Company where ref=#{idx} 
+		<choose>
+			<when test="order==null">order by idx</when>
+			<when test="order=='rank'">order by ${order} desc</when>
+			<when test="order=='name'">order by ${order}</when>
+		</choose>
+	</select>	
+	<select id="selectByIdx" parameterType="int" resultType="CompanyVO">
+		select * from Company where idx=#{idx}
+	</select>	
+	<update id="update" parameterType="CompanyVO">
+		update Company set name=#{name},managerid=#{managerId},
+		managername=#{managerName},ref=#{ref},managerphone=#{managerPhone},
+		faxnumber=#{faxNumber},managerpost=#{managerPost},manageraddress=#{managerAddress},
+		manageremail=#{managerEmail},image=#{image} where idx=#{idx}
+	</update>
+	<insert id="insert" parameterType="CompanyVO">
+		insert into Company values(company_idx_seq.currval,#{ref},#{name},
+		#{managerId},#{managerPhone},#{faxNumber},#{managerAddress},#{managerPost},#{managerEmail},#{managerName},#{image},0
+		)
+	</insert>
+	<update id="updateCompanyRank" parameterType="CompanyVO">
+		update company set rank=#{rank} where idx=#{idx}
+	</update>
+</mapper>  

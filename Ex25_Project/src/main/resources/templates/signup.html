@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>회원가입</title>
+	<style type="text/css">
+		.register_tab_top{background-color: purple;text-align: center;height: 50px;line-height: 50px;}
+		.box{margin: auto;width: 700px; }
+		.wrap{padding: 30px;box-shadow: 5px 5px 10px white;padding-left: 0;}
+		li{padding: 10px 0 10px 100px;line-height: 3rem;position: relative;list-style: none;}
+		label{margin:5px 0;top:8px;width: 150px;position: absolute;left: 0;}
+		strong{color: #4d0585;font-weight: bold;}
+		.input{margin-left: 30px;padding: 10px 20px;width: 360px;height: 40px;border:1px solid #d6dee4;border-radius: 4px;box-sizing: border-box;line-height: 37px;background-color: white;text-indent: 10px;}
+		.btn-confirm{width: 100%;text-align: center;}
+		a{width: 180px;height: 51x;display: inline-block;margin: 0 5px;background-color: white;
+			border:1px solid #ccc;border-radius: 4px;box-sizing: border-box;
+			color:black;font-size: 1.3em;line-height: 1.3rem;text-align: center;vertical-align: middle;
+			text-decoration: none;padding: 15px 0;
+		}
+		.btn-submit{background-color: black;color:white;display: inline-block;width: 180px;height: 50px;
+			margin: 0 5px;border:1px solid #ccc;border-radius: 4px;font-size: 1.3rem;line-height: 2.1rem;text-align: center;
+			cursor: pointer;
+		}
+		
+		#addrBtn{padding: 0.5em 1em;margin: 0.4em 0.15em;border: 1px solid #ccc;cursor: pointer;border-radius: 0.2em;vertical-align: middle;font-size: 1em;
+			line-height: 1.25em;
+		}
+		#duplication{margin-left: 25px;}
+	</style>
+		<script	src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>	
+		<script type="text/javascript">
+			$(function(){
+				$("#form").submit(function(){
+					let email_reg= /\w+([-+.]\w+)*@\w+([-.]\w+)*\.[a-zA-Z]{2,}$/;
+					if($("#id").val().trim().length==0 || $("#id").val().trim().length<4){
+						alert("아이디를 다시 입력해주세요.");
+						$("#id").html("");
+						$("#id").focus();
+						return false;
+					}else if($("#pw").val()!=$("#pwcheck").val()){
+						alert("비밀번호가 일치하지 않습니다.");
+						$("#pwcheck").html("");
+						$("#pw").focus();
+						return false;						
+					}else if(!email_reg.test($("#email").val())){
+						alert("이메일 형식이 다릅니다.");
+						$("#email").focus();
+						return false;												
+					}
+				});
+				$("#addrBtn").click(function(){
+					 new daum.Postcode({
+					        oncomplete: function(data) {
+					        	console.log(data);
+					           $("#addr1").val(data.zonecode);
+					           $("#addr2").val(data.address);
+					        }
+					    }).open();
+				});
+				$("#id").keyup(function(){
+					let id=$("#id").val();
+					axios.get('/loginjson?id='+id)
+					  .then(function (response) {
+					    // 성공 핸들링
+					    let value=response.data;
+					    if(value.length==0){
+					    	if(id.length>=4) $("#duplication").html("사용가능한 아이디 입니다.");
+					    	else $("#duplication").html("4글자 이상 입력해주세요.");
+					    	
+					    }else {
+					    	$("#duplication").html("해당 아이디는 사용중 입니다.");
+					    }
+					  })
+					  .catch(function (error) {
+					    // 에러 핸들링
+					    console.log(error);
+					  })
+					  .finally(function () {
+					    // 항상 실행되는 영역
+					  });
+					
+				})
+			});
+			
+		</script>
+</head>
+<body>
+	<form action="signupOk" method="post" id="form">
+		<div class="box">
+		 	<div class="register_tab_top">
+		 		<h2 style="width: 100%; color: white;">회원가입</h2>
+			</div>
+			<div class="wrap">
+				<ul>
+					<li><label>아이디 <strong>*</strong> </label>
+					<input type="text" name="id" class="input" id="id" placeholder="최소 3자 이상, 영문자, 숫자, _만 입력가능" required="required"/>
+					<div id="duplication"></div>
+					</li>
+					<li><label>비밀번호 <strong>*</strong> </label>
+					<input type="password" name="password" class="input" id="pw" placeholder="4~16글자 이내" required="required"/>
+					</li>
+					<li><label>비밀번호 확인 <strong>*</strong> </label>
+					<input type="password" name="passwordcheck" class="input" id="pwcheck" placeholder="비밀번호를 한번 더 입력하세요" required="required"/>
+					</li>
+					<li><label>이메일 <strong>*</strong> </label>
+					<input type="text" name="email" class="input"  id="email" placeholder="example@email.com" required="required"/>
+					</li>
+					<li><label>주소 <strong>*</strong> </label>
+					<input type="text" class="input"  id="addr1" style="width: 200px;" placeholder="우편번호"/> <button id="addrBtn">우편번호찾기</button>
+					<input type="text" name="addr" class="input"  id="addr2" placeholder="주소"/>
+					<input type="text" name="addr2" class="input"  id="addr3" placeholder="상세주소" required="required"/>
+					</li>
+					<li style="width: 500px;">
+					<label style="position: relative;"><input type="checkbox" name="login_mode" th:value="0" />일반 사용자</label>
+					<label style="position: relative;"><input type="checkbox" name="login_mode" th:value="1" style="margin-left: 100px;"/>사업자</label>
+					</li>					
+				</ul>
+			</div>
+			<div class="btn-confirm">
+				<a th:href="login">취소</a>
+				<input type="submit"  class="btn-submit" value="가입완료"/>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

@@ -1,0 +1,220 @@
+* {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TTWanjudaedunsancheB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/TTWanjudaedunsancheB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+.tag{
+	
+	text-decoration: none;
+	color: #000;
+}
+
+.nav-top {
+    position: relative;
+    max-width: 100%;
+    min-width: 320px;
+    margin: 0 auto;
+    background-color: #fa0050;
+    height: 5em;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.ver-pc {
+    margin-top: 0;
+}
+
+
+.search .image {
+    margin-top: -70px;
+    max-width: 100%;
+    height: 330px;
+    background-image: url("../yokiyoo/images/bg-top.png");
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+.login {
+    width: 10em;
+    height: 2.2rem;
+    background-color: #fa0050;
+    border: 0.1px solid #c9c3c3;
+    position: relative;
+    top: 1.3rem;
+    right: 4rem;
+    font-size: 0.9em;
+    color: #FFF;
+}
+
+.login2 {
+
+    width: 10em;
+    height: 2.2rem;
+    background-color: #ff8a00;
+    border: none;
+    position: relative;
+    top: 1.3rem;
+    right: 4rem;
+    font-size: 0.9em;
+    color: #FFF;
+    border-radius: 5px;
+}
+
+.pop2 {
+    width: 30px;
+    height: 30px;
+    display: block;
+    position: absolute;
+    bottom: 5px;
+    right: 1px;
+    color: #fa0050;
+}
+
+.nav-top h2 {
+    color: #FFF;
+    font-family: 'TTWanjudaedunsancheB';
+    position: relative;
+    font-size: 2rem;
+    top: 1.4rem;
+    left: 3.5rem;
+}
+
+
+ul li::after {
+    display: inline;
+    width: 5px;
+    height: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    content: "|";
+    color: #fa0050
+}
+
+.restaurantlist {
+    display: inline-block;
+    /*position: relative;*/
+    margin-bottom: 10px;
+    max-width: 100%;
+    left: 140px;
+    height: 2rem;
+    line-height: 2rem;
+
+}
+.restaurantlist>ul li {
+    display: inline-block;
+    font-size: 0.8em;
+}
+
+.content {
+    width: 100%;
+    border-bottom: 1px solid #ff8a00;
+    position: relative;
+    top: -40px;
+    left: 0;
+}
+
+
+.pop2 {
+	border: 1px solid gray;
+	max-width: 100%;
+	margin: 1em 0px;
+	cursor: pointer;
+}
+
+img {
+	cursor: pointer;
+}
+
+.pop {
+	border: 1px solid gray;
+}
+
+.nav>li::after {
+	content: none;
+}
+
+#result {
+	width: 500px;
+}
+
+.nav-link {
+	cursor: pointer;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.menu_title {
+	font-size: 20pt;
+	padding: 10px;
+}
+
+#orderYN {
+	font-size: 16pt;
+	padding: 20px;
+	height: 100px;
+}
+
+.info {
+	font-size: 11pt;
+	border-bottom: 1px solid gray;
+	padding: 0 0 20px 25px;
+	margin-bottom: 17px;
+}
+
+.icon {
+	background:
+		url("https://www.yogiyo.co.kr/mobile/image/ic_info_res.png?v=955d8fe214cd2cf54b1f35edbf16db044e8ef7d7")
+		no-repeat 0 1px;
+	background-size: 16px;
+	line-height: 0.8rem;
+}
+
+.info-list {
+	border: 1px solid #d9d9d9;
+	border-top: none;
+	padding: 30px 16px 0 16px;
+	width: 100%;
+}
+
+.info-list span {
+	display: table-cell;
+	width: 95px;
+}
+
+.div-price {
+	text-align: right;
+	width: 350px;
+	margin-bottom: 10px;
+}
+
+.orderTitle {
+	font-size: 16pt;
+	padding: 10px;
+}
+
+p {
+	width: 100%;
+}
+.yooki{color: white;font-size: 25pt ; font-family: 'TTWanjudaedunsancheB'; text-decoration: none;
+}

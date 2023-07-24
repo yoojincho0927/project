@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.human.boot.dao.LoginDAO">
+	<select id="select"  parameterType="String" resultType="LoginVO">
+		select * from login where id=#{id}
+	</select>
+	<select id="selectByIdx" parameterType="int" resultType="LoginVO">
+		select * from login where ref=#{idx}
+	</select>
+	<insert id="insert" parameterType="LoginVO">
+		insert into login values(login_idx_seq.nextval,#{login_mode},#{id},#{password},company_idx_seq.nextval,#{email},#{addr},#{addr2})
+	</insert>
+</mapper>  

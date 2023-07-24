@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<title>주문내역</title>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+    	  let count=[];
+	      let name=document.getElementById("name").value;
+    	  axios.get('/orderlist/orderbyname?name='+name)
+		  .then(function (response) {
+		    // 성공 핸들링
+		    let value=response.data;
+    	  	console.log(value);
+		    console.log(value.length);
+		   	for(i=0;i<value.length;i++){
+		   		count[i]=value[i].count;
+		   		//data[value[i].name]=count[i];
+		   	}
+		   	console.log("i : "+i);
+		   	if(i==5){
+		        var data = google.visualization.arrayToDataTable([
+		          ['메뉴', 'Hours per Day'],
+		          [value[0].userid,     count[0]],
+		          [value[1].userid,      count[1]],
+		          [value[2].userid,  count[2]],
+		          [value[3].userid,  count[3]],
+		          [value[4].userid,  count[4]]
+		        ]);
+		   	}else if(i==4){
+		        var data = google.visualization.arrayToDataTable([
+		          ['메뉴', 'Hours per Day'],
+		          [value[0].userid,     count[0]],
+		          [value[1].userid,      count[1]],
+		          [value[2].userid,  count[2]],
+		          [value[3].userid,  count[3]]
+		        ]);
+		   	}else if(i==3){
+		   	 var data = google.visualization.arrayToDataTable([
+		          ['메뉴', 'Hours per Day'],
+		          [value[0].user,     count[0]],
+		          [value[1].userid,      count[1]],
+		          [value[2].userid,  count[2]]
+		        ]);
+		   	}else if(i==2){
+		   	 var data = google.visualization.arrayToDataTable([
+		          ['메뉴', 'Hours per Day'],
+		          [value[0].userid,     count[0]],
+		          [value[1].userid,      count[1]]
+		        ]);
+		   	}else if(i==1){
+			   	 var data = google.visualization.arrayToDataTable([
+			          ['메뉴', 'Hours per Day'],
+			          [value[0].userid,     count[0]]
+			        ]);
+			}else{
+			   	 var data = google.visualization.arrayToDataTable([
+			          ['메뉴', 'Hours per Day']
+			        ]);
+			   	}
+	        var options = {
+	          title: '주문내역'
+	        };
+	
+	        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+	
+	        chart.draw(data, options);
+		  })
+		  .catch(function (error) {
+		    // 에러 핸들링
+		    console.log(error);
+		  })
+		  .finally(function () {
+		    // 항상 실행되는 영역
+		  });
+      }
+    </script>
+	<style type="text/css">
+		table{width: 800px;margin: auto;}
+		.title{font-size: 25pt;text-align: center;padding: 10px;border: none;}
+		th{border:1px solid black;text-align: center;}
+		td{text-align: center;}
+	</style>
+</head>
+<body>
+<table>
+	<tr>
+		<td class="title" colspan="3">[[${name}]] 구매목록</td>
+	</tr>
+	<tr>
+		<th>유저</th>
+		<th>수량</th>
+	</tr>
+	<th:block th:if="${ovo!=null}">
+		<tr th:each="vo,i:${ovo}">
+			<td>[[${vo.userid}]]</td>
+			<td>[[${vo.count}]]</td>
+		</tr>
+	</th:block>
+	<th:block th:if="${ovo.size==0}">
+		<tr>
+			<td colspan="3" style="border: 1px solid black;font-size: 20pt;padding: 10px;">주문내역이 없습니다.</td>
+		</tr>
+	</th:block>
+	<tr>
+		<td colspan="3" style="text-align: right;"><button  class="btn btn-outline-info btn-sm" style="margin-top: 10px;" th:onclick="|location.href='@{|/orderlist/${session.managerid}|}'|">뒤로가기</button></td>
+	</tr>
+</table>
+<input type="hidden" id="name" th:value="${name}"/>
+<div id="piechart" style="width: 100%; height: 500px;margin-left: 70px;"></div>
+</body>
+</html>

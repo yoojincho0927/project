@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.pop2{ border:1px solid gray;
+max-width: 100%;
+margin:1em 0px;
+cursor: pointer;
+}
+</style>
+</head>
+<body>
+<h1>목록임</h1>
+<div id="pop">
+
+
+<div th:text=${count}></div>
+[[${count}]]개
+
+
+
+<!-- 상위 경로는 "/" 앞에 붙으면 상위경로부터 된다는 뜻 -->
+<div th:each="list :${list}" class="pop2" th:onclick="|location.href='@{view(idx=${list.idx})}'|">
+
+idx:<span th:text=${list.idx}></span>
+ref:<span th:text=${list.ref}></span>
+content:<span th:text=${list.content}></span>
+score:<span th:text=${list.score}></span>
+Date:<span th:text="${list.regDate2}"></span>
+
+<br>
+
+</div>
+
+
+
+
+
+
+
+
+<button class="pop2" th:onclick="|location.href='@{/review/insert}'|">리뷰쓰기</button>
+
+</div>
+
+
+
+
+</body>
+</html>

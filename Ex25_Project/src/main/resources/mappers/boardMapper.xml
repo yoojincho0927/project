@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.human.boot.dao.BoardDAO">
+	<select id="select" parameterType="hashmap" resultType="BoardVO">
+		select * from
+		(select rownum rnum,r.* from
+		(select * from fboard
+		 <where>
+		 <choose>
+		 <when test="category=='name' and search!=null">${category}=#{search}</when>
+		 <when test="category=='regdate' and search!=null">${category}=to_date(#{search},'yyyy-MM-dd')</when>
+		 <when test="category=='subject' and search!=null">${category} like '%${search}%'</when>
+		 </choose> 
+		 </where> 
+		 order by idx desc)r 
+		 where <![CDATA[rownum<=#{endNo}]]>)
+		 where <![CDATA[rnum>=#{startNo}]]>
+	</select>
+	
+	<select id="selectByIdx" parameterType="int" resultType="BoardVO">
+		select * from fboard where idx=#{idx}
+	</select>
+	<select id="selectCount" resultType="int">
+		select count(*) from fboard
+	</select>
+	<insert id="insert" parameterType="BoardVO">
+		insert into fboard values(fboard_idx_seq.nextval,#{name},#{password},#{subject},#{content},to_char(sysdate,'yyyy-MM-dd'))
+	</insert>
+	<update id="update" parameterType="BoardVO">
+		update fboard set subject=#{subject},content=#{content},regdate=to_char(sysdate,'yyyy-MM-dd') where idx=#{idx}
+	</update>
+	<delete id="delete" parameterType="int">
+		delete from fboard where idx=#{idx}
+	</delete>
+</mapper>  

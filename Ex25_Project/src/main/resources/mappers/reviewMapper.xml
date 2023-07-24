@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.human.boot.dao.ReviewDAO">
+	<!-- namespace와 인터페이스 이름이 일치해야 자동으로 구현된다. -->
+
+
+	<!-- 1. 업체에 대한 개수세기 -->
+	<select id="selectCount"  parameterType="int" resultType="int">
+		SELECT count (*) 
+	 FROM REVIEW r ,ORDERMENU o,MENU m,COMPANY c 
+	 WHERE o.IDX =r."REF" AND m.NAME = o.NAME AND c.IDX = m."REF" AND c.IDX =#{idx} order by r.idx desc
+	</select>
+
+
+    <!-- 안씀 -->
+	<!-- 목록가져오기 -->
+	<select id="selectList" resultType="Review">
+
+		select * from review order by idx desc
+
+	</select>
+
+	<!-- 2. 1개 얻기 -->
+	<select id="selectByIdx" parameterType="int" resultType="Review">
+		select *
+		from review where idx=#{idx}
+	</select>
+	
+	
+	<!-- 리뷰의 ref를 가져오는데, 그게 리뷰의 idx여야함 -->
+	<select id="selectByRefReview" parameterType="int" resultType="Review">
+		select *
+		from review where ref=#{idx}
+	</select>
+	
+	
+	<!-- 2. 1개 얻기 -->
+	<!-- ref로 가져오삼 -->
+	<!-- ordermenu와 리뷰의 ref로 가져오게 만듬 -->
+	<!-- userid와 file을 같이 받아오는 쿼리 -->
+	<select id="selectByRef" parameterType="int" resultType="Review">
+     SELECT r.* FROM REVIEW r ,ORDERMENU o WHERE r.ref =o.IDX and r.ref=#{idx}
+	</select>
+	
+	<!-- review 테이블에 대한 Company와 파일까지 같이 가져오게 함 -->
+	<select id="selectCompany" parameterType="int" resultType="Review">
+	SELECT r.* ,m.NAME 
+	 FROM REVIEW r ,ORDERMENU o,MENU m,COMPANY c 
+	 WHERE o.IDX =r."REF" AND m.NAME = o.NAME AND c.IDX = m."REF" AND c.IDX =#{idx} order by r.idx desc
+	</select>
+	
+	
+	<!-- 저장하기 -->
+	<insert id="insert" parameterType="Review">
+		insert into
+		review
+		values
+		(review_idx_seq.nextval,#{ref},#{content},#{score},TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS'),#{userid},#{comref})
+	</insert>
+	
+
+	<!--글 수정하기 -->
+	<update id="update" parameterType="Review">
+		update
+		review
+		set
+		content=#{content},
+		score=#{score},
+		regDate2=TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS')
+		where
+		idx = #{idx}
+	</update>
+
+
+	<!-- 삭제하기 -->
+	<delete id="delete" parameterType="int">
+		delete from review where
+		idx=#{idx}
+	</delete>
+	
+	<!-- 안씀 -->
+     <!-- 일단 이걸로 리뷰 나오게끔하는거 만들기..음..! -->
+	<select id="selectReviewByComRef" parameterType="int" resultType="Review">
+	
+	</select>
+	
+	
+	<select id="selectReviewRank" parameterType="int" resultType="Double">
+		SELECT nvl(round(avg(r.score),2),0) rank  FROM REVIEW r ,ORDERMENU o ,MENU m ,COMPANY c 
+		WHERE r."REF" = o.IDX AND o.NAME = m.NAME AND m."REF" = c.IDX AND c.IDX = #{idx}
+	</select>	
+	
+
+	<select id="selectCompanyIdx" parameterType="int" resultType="int">
+		select distinct(c.idx) from review r,menu m,company c,ordermenu o
+		 where r.ref=o.idx and o.name = m.name and m.ref=c.idx and r.ref=#{idx}
+	</select>
+</mapper>  

@@ -1,0 +1,33 @@
+
+* {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+@font-face {
+    font-family: 'TTWanjudaedunsancheB';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/TTWanjudaedunsancheB.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+.yooki2{margin-top: 20px;}
+.yooki{color: white;font-size: 25pt ; font-family: 'TTWanjudaedunsancheB'; text-decoration: none;
+}
+	.login{display: block;padding: 10px 15px; margin-bottom: -1px;background-color: #fff; border:1px solid #ddd; width: 95%;}
+	#form{width: 500px;margin: auto; margin-top: 70px;}
+	.check_login{margin-top: 10px;cursor: pointer;}
+	.checkbox{margin-top: 10px;}
+	.inquiry{margin-left : 150px;color: #999;}
+	
+	.inquiry a{text-decoration: none; color:#000; }
+	a{text-decoration: none;color: black;font-size: 9pt;}
+	.loginbtn{border-color: #ccc;background-color: #ccc;width: 95%; opacity: .65;color: white;height: 40px;font-size: 15px;margin-top: 7px;}
+	.kakao{background: url("https://www.yogiyo.co.kr/mobile/image/ic_logo_kakao.png?v=955d8fe214cd2cf54b1f35edbf16db044e8ef7d7") no-repeat center;}
+	.naver{background: url("https://www.yogiyo.co.kr/mobile/image/ic_logo_naver.png?v=955d8fe214cd2cf54b1f35edbf16db044e8ef7d7") no-repeat center;}
+	.social{background-size: 20px;width: 28px;height: 28px;vertical-align: middle;display: inline-block;}
+	.kakaoBtn{width: 45%;margin-top: 5px;height: 35px;float: left;margin-right: 17px;}
+	.naverBtn{width: 46%;margin-top: 5px;height: 35px;}
+	.header{ position: relative;max-width: 100%;min-width: 320px;margin: 0 auto;background-color: #fa0050;height: 5em;display: flex;justify-content: space-between;}
+	h2{cursor: pointer;line-height: 70px;margin-left: 47px;}
+	*{ list-style: none;margin: 0;padding: 0;}

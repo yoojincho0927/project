@@ -1,0 +1,81 @@
+SELECT * FROM MENU m ;
+
+SELECT * FROM COMPANY c ;
+
+
+SELECT * FROM login;
+
+SELECT * FROM ORDERMENU o ;
+
+-- 오더 메뉴하고 그냥 메뉴가
+
+
+
+SELECT * FROM REVIEW r ;
+
+
+
+SELECT * FROM ORDERMENU o ,MENU m ,REVIEW r 
+WHERE m.IDX  =o.IDX ;
+
+
+SELECT * FROM REVIEW r ,ORDERMENU o 
+WHERE o.IDX =r."REF" ;
+
+SELECT * FROM 
+(SELECT * FROM REVIEW r ,ORDERMENU o 
+WHERE o.IDX =r."REF");
+
+SELECT * FROM REVIEW r ,ORDERMENU o 
+WHERE o.IDX =r."REF";
+
+
+
+
+SELECT * FROM ORDERMENU o ,MENU m ,REVIEW r WHERE  o.NAME= m.NAME ; 
+
+SELECT * FROM review; 
+SELECT * FROM ordermenu;
+SELECT * FROM COMPANY ;
+
+SELECT 
+	r.IDX , r."REF" , o.NAME , c.NAME , c.IDX ,r.CONTENT , o.USERID 
+FROM 
+	review R, ordermenu O, COMPANY c 
+WHERE 
+	R.REF=o.idx AND c.idx=r.REF AND r.REF=24;
+
+
+SELECT 
+	r.IDX , r."REF" , o.NAME , c.NAME , r.CONTENT , o.USERID 
+FROM 
+	ordermenu O, COMPANY c ,Review r
+WHERE 
+	c.idx=24;
+
+SELECT r.CONTENT ,c.NAME ,m.NAME ,o.USERID  FROM COMPANY c,MENU m,REVIEW r ,ORDERMENU o  WHERE c.IDX  =r."REF" ;
+
+
+
+-- 메뉴
+SELECT * FROM menu m;
+-- 업체
+SELECT * FROM COMPANY c ;
+
+
+-- 업체별 메뉴
+SELECT 
+	c.idx, c.NAME , m.*
+FROM 
+	COMPANY c , MENU m 
+WHERE 
+	c.idx=m.REF AND c.idx=24;
+
+-- 주문내역
+SELECT * FROM ORDERMENU o ;
+
+SELECT name, USERID  FROM ORDERMENU o WHERE userid='user' ;
+
+
+SELECT r.content FROM REVIEW r
+WHERE idx=1;

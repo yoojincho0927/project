@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.human.boot.dao.FileDAO">
+	<!-- namespace와 인터페이스 이름이 일치해야 자동으로 구현된다. -->
+
+
+
+	<!-- 2. 1개 얻기 -->
+	<select id="selectByIdx" parameterType="int" resultType="FileVO">
+		select *
+		from File2 where idx=#{idx}
+	</select>
+	<!-- 2. 1개 얻기 -->
+	<!-- ref로 가져오삼 -->
+	<select id="selectByRef" parameterType="int" resultType="FileVO">
+      select *
+		from File2 f WHERE f.ref=#{idx}
+	</select>
+
+
+	<!-- 저장하기 -->
+	<insert id="insert" parameterType="FileVO">
+		insert into
+		File2
+		values
+		(file2_idx_seq.nextval,#{uuid},#{fileName},#{contentType},review_idx_seq.currval)
+	</insert>
+<!-- 수정할때 다시 넣어 줘야 하기 때문 -->
+	<insert id="insert2" parameterType="FileVO">
+		insert into
+		File2
+		values
+		(file2_idx_seq.nextval,#{uuid},#{fileName},#{contentType},#{ref})
+	</insert>
+
+	<!-- 수정하기 필요없음ㅇㅇㅇㅇㅇ
+	<update id="update" parameterType="FileVO">
+		update
+		File2
+		set
+		uuid=#{uuid},
+		fileName=#{fileName},
+		contentType=#{contentType},
+		
+		where
+		ref = #{idx}
+	</update>-->
+
+
+	<!-- 삭제하기 -->
+	<delete id="delete" parameterType="int">
+		delete from File2 where
+		idx=#{idx}
+	</delete>
+	
+	<!-- ref에 관한 모든 이미지 삭제하기 -->
+	<delete id="deleteByRef" parameterType="int">
+		delete from File2 where
+		ref=#{ref}
+	</delete>
+
+
+
+</mapper>  

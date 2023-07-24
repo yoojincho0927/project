@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+	
+		
+		$(document).ready(function(){
+			  // 실행할 기능을 정의해주세요.
+			});
+	</script>
+</head>
+<body>
+<h1>내용보기</h1>
+[[${vo}]]
+
+<hr />
+<th:block th:each="file : ${fileList}">
+	<img th:src="${'/upload/' + file.uuid}" th:alt="${file.fileName}" />
+</th:block>
+<hr />
+
+	<input type="button" value="돌아가기"  
+				th:onclick="|location.href='@{list}'|"/>
+				<input type="button" value="수정하기"
+				th:onclick="|location.href='@{update(idx=${vo.idx})}'|"/>
+				<input type="button" value="삭제하기" id="delete"  
+				th:onclick="|location.href='@{delete(idx=${vo.idx})}'|"/>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.human.boot.dao.OrderMenuDAO">
+	<select id="selectByRef"  parameterType="String" resultType="OrderMenuVO">
+		select d.*,o.count from ordermenu o,food d where o.name=d.name and o.name=#{name}
+	</select>
+	<select id="selectByCategory"  parameterType="int" resultType="OrderMenuVO">
+		SELECT o.name,sum(o.count) count FROM ORDERMENU o ,(SELECT * FROM menu f WHERE f.ref =#{ref})r  WHERE o.name=r.name group by o.name order by o.name
+	</select>
+	<insert id="insert" parameterType="OrderMenuVO">
+		insert into ordermenu values(ordermenu_idx_seq.nextval,#{count},#{name},#{userid})
+	</insert>
+	<update id="update" parameterType="OrderMenuVO">
+		update ordermenu set count=count+#{count} where name=#{name}
+	</update>
+	<select id="selectOrderMenu" parameterType="int" resultType="OrderMenuVO">
+		SELECT o.name name , sum(count) count FROM ORDERMENU o ,(SELECT * FROM menu f WHERE f.ref =#{ref})r  WHERE o.name=r.name group by o.name
+	</select>
+	<select id="selectOrderMenuID" parameterType="String" resultType="OrderMenuVO">
+		select * from ordermenu where userid=#{id}
+	</select>
+	<select id="selectOrderMenuName" parameterType="hashmap" resultType="OrderMenuVO">
+		select * from ordermenu where userid=#{userid} and name=#{name}
+	</select>
+	<select id="selectOrderByCount" parameterType="String" resultType="OrderMenuVO">
+		select * from ordermenu where name=#{name} order by count desc
+	</select>
+	<select id="selectPage" parameterType="hashmap" resultType="OrderMenuVO">
+		SELECT * FROM (SELECT rownum rnum,r.* FROM(SELECT * FROM ORDERMENU o WHERE userid=#{userid} order by idx desc)r WHERE <![CDATA[rownum<=#{endNo}]]>) WHERE <![CDATA[rnum >=#{startNo}]]>
+	</select>
+	<select id="selectCount"  parameterType="String" resultType="int">
+		select count(*) from ordermenu where userid=#{userid}
+	</select>
+</mapper>  

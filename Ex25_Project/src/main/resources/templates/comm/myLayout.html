@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title></title>
+
+<style type="text/css">
+* {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+@font-face {
+	font-family: 'Pretendard-Regular';
+	src:
+		url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+		format('woff');
+	font-weight: 200;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'TTWanjudaedunsancheB';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/TTWanjudaedunsancheB.woff2')
+		format('woff2');
+	font-weight: 700;
+	font-style: normal;
+}
+
+footer {
+	font-family: 'Pretendard-Regular';
+	background: #FBFBFB;
+	padding-bottom: 65px;
+	font-size: 12px;
+	color: #999;
+}
+
+.footer-menu {
+	background: #FBFBFB;
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #d9d9d9;
+	display: flex;
+	justify-content: space-between;
+}
+
+.footer-menu li:after {
+	float: right;
+	display: block;
+	content: "|";
+	margin-left: 10px;
+	margin-right: 10px;
+	color: #d9d9d9;
+}
+
+.footer-menu li {
+	float: left;
+	list-style: none;
+	padding: 15px 0 13px 0;
+}
+
+.footer-menu>ul {
+	max-width: 1020px;
+	margin: 0 auto;
+	padding-left: 0;
+	overflow: hidden;
+}
+
+.company-wrap {
+	position: relative;
+	max-width: 1020px;
+	margin: 32px auto 0 auto;
+	padding-left: 20px;
+}
+
+.company-wrap>ul {
+	max-width: 1020px;
+}
+
+.company-info {
+	display: inline-block;
+	color: #4D4D4D;
+	line-height: 1.6;
+	padding-left: 118px;
+}
+
+.company-info ul {
+	display: inline;
+}
+
+.company-info li {
+	display: inline;
+	margin-right: 10px;
+	color: #4D4D4D;
+}
+
+.pop::after {
+	content: "|";
+	display: inline;
+	margin-left: 10px;
+}
+
+.company-info .service-info {
+	display: flex;
+	max-width: 1020px;
+	margin: 30px auto;
+	/*  overflow: auto; */
+}
+
+.csc {
+	display: flex;
+	align-items: center;
+	color: #666;
+	margin-left: 10px;
+	font-size: 18px;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.low {
+	font-style: normal;
+	font-weight: bold;
+	font-size: 18px;
+	margin-bottom: 30px;
+}
+
+.category-list .row {
+	padding: 5px;
+	max-width: 1020px;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	font-family: 'Pretendard-Regular';
+}
+
+.pop1 {
+	width: 230.5px;
+	height: 210.5px;
+	padding: 0;
+	margin: 5px 5px;
+	border: 1px solid #d9d9d9 !important;
+	position: relative;
+	z-index: 100;
+}
+
+.pop1 img {
+	float: right;
+	max-width: 100%;
+	max-height: 100%;
+	margin-top: 0.1px;
+}
+
+.category-title {
+	position: absolute;
+	top: 7%;
+	left: 7%;
+	color: #333;
+	font-size: 110%;
+	font-weight: bold;
+}
+
+.nav-top {
+	position: relative;
+	max-width: 100%;
+	min-width: 320px;
+	margin: 0 auto;
+	background-color: #fa0050;
+	height: 5em;
+	display: flex;
+	justify-content: space-between;
+}
+
+.ver-pc {
+	margin-top: 0;
+}
+
+.search .image {
+	margin-top: -50px;
+	max-width: 100%;
+	height: 330px;
+	background-image: url("../yokiyoo/images/bg-top.png");
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.login {
+	width: 10em;
+	height: 2.2rem;
+	background-color: #fa0050;
+	border: 1px solid #c9c3c3;
+	position: relative;
+	top: 1.3rem;
+	right: 4rem;
+	font-size: 0.9em;
+	color: #FFF;
+}
+
+.pop2 {
+	width: 30px;
+	height: 30px;
+	display: block;
+	position: absolute;
+	bottom: 5px;
+	right: 1px;
+	color: #fa0050;
+}
+
+.nav-top h2 {
+	color: #FFF;
+	font-family: 'TTWanjudaedunsancheB';
+	position: relative;
+	font-size: 2rem;
+	top: 1.4rem;
+	left: 3.5rem;
+}
+
+.xi-facebook {
+	margin-right: 15px;
+}
+
+.xi-telegram {
+	margin-right: 15px;
+}
+
+.service-info .img {
+	display: inline-block;
+	width: 38px;
+	height: 38px;
+	margin: 0 10px 0 0;
+	vertical-align: middle;
+}
+
+.service-info div {
+	margin-right: 30px;
+}
+
+.bpg .img {
+	background: url("../yokiyoo/images/img-footer1.png") no-repeat 0 -30px;
+}
+
+.bpg, .cleanreview {
+	width: 130px;
+	justify-content: space-between;
+}
+
+.bpg, .cleanreview .text {
+	font-size: 0.5em;
+}
+
+.cleanreview .img {
+	background: url("../yokiyoo/images/img-footer1.png") no-repeat -38px
+		-30px;
+}
+
+.service-info .text {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.csc em {
+	font-size: 18px;
+	font-style: normal;
+	font-weight: bold;
+	padding-right: 10px;
+}
+
+.csc span {
+	font-size: 15px;
+}
+
+.company-logo {
+	font-family: 'TTWanjudaedunsancheB';
+	position: relative;
+	font-size: 2rem;
+	top: 1.4rem;
+	left: 0;
+	color: #d3d1d1;
+}
+</style>
+</head>
+<body>
+	<!-- 헤더 -->
+	<header id="myHeader">
+		<img alt="건방진 펭귄" src="/images/bg-top.png">
+
+	</header>
+	<!-- 네비게이션 -->
+
+	<!-- 푸터 -->
+	<footer id="myfooter">
+
+		<div class="footer-menu">
+
+			<ul>
+
+				<li>이용약관</li>
+				<li>개인정보처리방침</li>
+				<li>포인트정책</li>
+				<li>회사소개</li>
+				<li>요기요사장님</li>
+				<li>입점문의</li>
+				<li>공지사항</li>
+			</ul>
+
+			<ul>
+
+				<li><i class="xi-facebook"></i>페이스북</li>
+				<li><i class="xi-telegram"></i>블로그</li>
+			</ul>
+
+		</div>
+
+		<div class="company-wrap">
+
+			<div class="company-logo">요기요</div>
+
+
+			<div class="company-info">
+
+				<div class="low">주식회사 위대한상상</div>
+				<ul>
+					<li class="pop">서울시 서초구 서초대로38길 12 마제스타시티 타워2 17층</li>
+					<li class="pop">대표이사 : 서성원</li>
+					<li class="pop">사업자등록번호:211-88-68802</li>
+					<li class="pop">통신판매업신고:제 2018-서울서초-2635호</li>
+					<li class="pop">개인정보담당자 : privacy@yogiyo.co.kr</li>
+					<li class="pop">제휴문의 : partnership@yogiyo.co.kr</li>
+					<li class="pop">고객만족센터 : support@yogiyo.co.kr</li>
+					<li class="pop">호스팅 제공자: 카페24 주식회사</li>
+
+				</ul>
+
+				<div class="service-info">
+
+					<div class="bpg">
+						<span class=" img"></span> <span class="text">요기요<br>안심센터
+						</span>
+					</div>
+					<div class="cleanreview">
+
+
+						<span class="img"></span> <span class="text">요기요<br>100%
+							클린리뷰
+						</span>
+
+
+					</div>
+					<div class="csc">
+						<em>고객만족센터</em> <strong>1661-5270</strong><em>(유료)</em> <span>24시간,
+							연중무휴</span>
+					</div>
+
+				</div>
+
+				<div>
+
+					<p>주식회사 위대한상상은 통신판매중개자이며 통신판매의 당사자가 아닙니다. 따라서 상품/ 거래정보 및 거래와
+						관련하여 요기요에 등록된 판매자의 고의 또는 과실로 소비자에게 발생하는 손해에 대해 주식회사 위대한상상은 책임을 지지
+						않습니다. 상품 및 거래에 관하여 보다 정확한 정보는 해당 판매자에게 직접 확인하여 주시기 바랍니다. Copyright
+						YOGIYO. All Rights Reserved.</p>
+				</div>
+			</div>
+
+
+
+		</div>
+
+
+
+	</footer>
+
+</body>
+</html>
