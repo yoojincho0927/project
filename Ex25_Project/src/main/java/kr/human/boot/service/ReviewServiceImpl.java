@@ -1,6 +1,7 @@
 package kr.human.boot.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,8 +186,8 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public Double selectReviewRank(int idx) {
-		Double count=0.0;
+	public double selectReviewRank(int idx) {
+		double count=0.0;
 		try {
 			count = reviewDAO.selectReviewRank(idx);
 		} catch (SQLException e) {
@@ -195,6 +196,24 @@ public class ReviewServiceImpl implements ReviewService {
 		}
 		return count;
 	
+	}
+
+	@Override
+	public List<Review> selectCompany2(int idx, int count) {
+		List<Review> list = null;
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("idx", idx);
+		map.put("count", count);
+		try {
+			list = reviewDAO.selectCompany2(map);
+			for (Review v : list) {
+				List<FileVO> fvo = fileDAO.selectByRef(v.getIdx());
+				v.setFileList(fvo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 	

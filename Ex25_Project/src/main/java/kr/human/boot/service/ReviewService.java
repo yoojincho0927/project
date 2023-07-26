@@ -1,6 +1,7 @@
 package kr.human.boot.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 import kr.human.boot.vo.Review;
@@ -29,7 +30,10 @@ public interface ReviewService {
 	Review selectByRefReview(int idx);
 	//해당 Company와 file을 List로 가져옴
 	List<Review> selectCompany(int idx) ;
-	Double selectReviewRank(int idx);
+	List<Review> selectCompany2(int idx, int count);
+	
+	
+	double selectReviewRank(int idx);
 	
 	List<Review> selectReviewByComRef(int comref);
 	

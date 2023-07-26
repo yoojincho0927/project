@@ -294,6 +294,8 @@ public class HomeController {
 		model.addAttribute("vo", vo);
 		log.info("아이디아이디아이디 : {}", session.getAttribute("id"));
 		String path = loader.getResource("/").getURI().toString() + "upload/";
+		
+		//리뷰에서 n개 가져왔다는 것 표기
 		model.addAttribute("count", reviewService.selectCount(idx));
 		path = path.substring(6);
 		log.info("파일 경로 : {}", path);

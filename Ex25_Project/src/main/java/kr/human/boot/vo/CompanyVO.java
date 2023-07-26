@@ -1,8 +1,12 @@
 package kr.human.boot.vo;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+
 public class CompanyVO {
 	private int idx;
 	private int ref;

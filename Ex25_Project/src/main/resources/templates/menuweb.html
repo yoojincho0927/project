@@ -22,6 +22,14 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
+
+
+
+//전역변수로 뺐음
+	let count = 5; 
+	//로그인이 되어 있으면 수정, 삭제 보이도록 로그인 안되있으면 수정 삭제 안보임.
+	let session_user = "[[${session.id}]]";
+	
 	function toggle(){
 		if($("#box1").css('display')=='none'){
 			$("#box1").css('display','block');
@@ -33,6 +41,7 @@
 			$("#toggleBtn").html('그림리뷰만보기');
 		}
 	}
+	
 	
 	$(function() {
 		
@@ -104,103 +113,12 @@
 			$("#result2").css("display","block");
 			$("#result3").css("display","none");
 			
-			//로그인이 되어 있으면 수정, 삭제 보이도록 로그인 안되있으면 수정 삭제 안보임.
-			let session_user = "[[${session.id}]]";
+			//사진 보이기,전체보기, 내용갖고오는 함수임
+			getReview();
 			
-			 let box = "";
-			 //----------------------------------------------------------------
-			 box += "<button id='toggleBtn' onclick='toggle()'>사진만 보기</button><br>";
-			 box += "<div>리뷰:"+$("#count").val()+"개</div>";
-			 //----------------------------------------------------------------
-			 let box1 = "<div id='box1' class='line'>" + box; // 사진리뷰만
-			 let box2 = "<div id='box2' class='line'>" + box; // 모든 리뷰
 			
-			axios.get('/review/selectByRefReview')
-			  .then(function (response) {
-			    // 성공 핸들링
-			    console.log(response.data);
-			    values=response.data;
-				
-				//반복문으로 출력하셈
-			    for(value of values){
-			    	
-			    //파일이 1개 이상이면 옆으로 출력되도록 만들기
-			    	console.log(JSON.stringify(value.fileList));
-			    	// 사진 리뷰만 나오기
-			    	if(value.fileList!=""){
-					    for(image of value.fileList){
-						    box1 +=  "<img src='/upload/" +image.uuid+ "' width='100' height='100'>";
-					    }
-						box1 += "<br>"
-					    //여기서부터 순서 절대 바꾸지 마세요!!! 
-					    box1 += "<div>" +value.userid+ "님</div>";
-					    box1 += "<div>내용:  " +value.content+ "</div>";
-					    box1 += "<div>메뉴:  " +value.name+ "</div>";
-					    box1 +="<div>날짜:  " +value.regDate2+ "</div>";
 
-					    //$(score).appendTo($(div));
-					    //별 이미지 나오게 하는 법
-					    for(i=1;i<=value.score;i++){
-					    	  box1 +="<img src='/images/star.png'>";
-					    }
-					    
-					    //로그인이 되어 있으면 수정, 삭제
-					    //value에 있는 idx 를 가져옴
-					    //그 idx를 가져와서  196번째 줄에 있음 //그 링크로 보낸다...
-					    if(session_user==value.userid){
-					    				    
-					     	box1 +="<button onclick='search("+value.idx+");'>수정</button>";
-					     	box1 +="<button onclick='search2("+value.idx+");'>삭제</button>";
-						  
-					    }
-				        box1 += "<br><hr>";
-				    }
-			    }
-		        box1 += "</div>";
-		        
-		        //반복문으로 출력하셈
-			    for(value of values){
-			    	
-					    for(image of value.fileList){
-						    box2 +=  "<img src='/upload/" +image.uuid+ "' width='100' height='100'>";
-					    }
-						box2 += "<br>"
-					    //여기서부터 순서 절대 바꾸지 마세요!!! 
-					    box2 += "<div>" +value.userid+ "님</div>";
-					    box2 += "<div>내용:  " +value.content+ "</div>";
-					    box2 += "<div>메뉴:  " +value.name+ "</div>";
-					    box2 +="<div>날짜:  " +value.regDate2+ "</div>";
-
-					    //$(score).appendTo($(div));
-					    //별 이미지 나오게 하는 법
-					    for(i=1;i<=value.score;i++){
-					    	  box2 +="<img src='/images/star.png'>";
-					    }
-					    
-					    //로그인이 되어 있으면 수정, 삭제
-					    //value에 있는 idx 를 가져옴
-					    //그 idx를 가져와서  196번째 줄에 있음 //그 링크로 보낸다...
-					    if(session_user==value.userid){
-					    				    
-					     	box2 +="<button onclick='search("+value.idx+");'>수정</button>";
-					     	box2 +="<button onclick='search2("+value.idx+");'>삭제</button>";
-						  
-					    }
-				        box2 += "<br><hr>";
-					 
-				}
-		        box2 += "</div>";
-		        $("#result2").html(box1 + box2);
-		        $("#box1").css("display","none");
-			  })
-			  .catch(function (error) {
-			    // 에러 핸들링
-			    console.log(error);
-			  })
-			  .finally(function () {
-			    // 항상 실행되는 영역
-			  });
-		
+			
 		});
 		
 		$("#menu3").click(function(){
@@ -239,7 +157,9 @@
 		
 		
 		
-	});
+	})
+
+	
     //그 idx를 가져와서
 	function search(idx){
 		location.href='/review/update?idx='+idx;
@@ -288,14 +208,156 @@
 		$("<input type='hidden' name='count' value='"+data.count+"'>").appendTo($("#result"));
 		$("#price").html("<hr style='width:370px;'/><div class='div-price'>합계 : " + price.toLocaleString("ko-KR")+"   <input type='submit' id='pay' class='btn btn-outline-info btn-sm' value='주문하기' /></div>");
 	}
+	
+	//더보기 실행 함수
+	function getReview(){
+		
+		//n 개 만 갖고오는 함수 mapper를 다시 만들어줘야한다.
+		axios.get('/review/selectByRefReview2?count=' + count)
+		  .then(function (response) {
+			  
+		
+			  
+			  
+		    // 성공 핸들링
+		    console.log(response.data);
+		    //전체 길이 나옴
+		    values=response.data;
+		    console.log(values[0].idx);
+			//console.log(values.length);
+	    	              
+      
+            	  
+            	 let box = "";
+    			 //----------------------------------------------------------------
+    			 box += "<button id='toggleBtn' onclick='toggle()'>사진만 보기</button><br>";
+    			 box += "<div>리뷰:"+$("#count").val()+"개</div>";
+    			 //----------------------------------------------------------------
+    			 let box1 = "<div id='box1' class='line'>" + box; // 사진리뷰만
+    			 let box2 = "<div id='box2' class='line'>" + box; // 모든 리뷰
+            	  
+            	  
+			//반복문으로 출력하셈
+		   for(value of values){
+		    	
+		    //파일이 1개 이상이면 옆으로 출력되도록 만들기
+		    	//console.log(JSON.stringify(value.fileList));
+		    	// 사진 리뷰만 나오기
+		    	if(value.fileList!=null && value.fileList.length>0){
+				    for(image of value.fileList){
+					    box1 +=  "<img src='/upload/" +image.uuid+ "' width='100' height='100'>";
+				    }
+					box1 += "<br>"
+		    		
+				    //여기서부터 순서 절대 바꾸지 마세요!!! 
+				    box1 += "<div>" +value.userid+ "님</div>";
+				    box1 += "<div>내용:  " +value.content+ "</div>";
+				    box1 += "<div>메뉴:  " +value.name+ "</div>";
+				    box1 +="<div>날짜:  " +value.regDate2+ "</div>";
+
+				    //$(score).appendTo($(div));
+				    //별 이미지 나오게 하는 법
+				    for(i=1;i<=value.score;i++){
+				    	  box1 +="<img src='/images/star.png'>";
+				    }
+				    
+				    //로그인이 되어 있으면 수정, 삭제
+				    //value에 있는 idx 를 가져옴
+				 
+				    if(session_user==value.userid){
+				    				    
+				     	box1 +="<button onclick='search("+value.idx+");'>수정</button>";
+				     	box1 +="<button onclick='search2("+value.idx+");'>삭제</button>";
+					  
+				    }
+			        box1 += "<br><hr>";
+		    	}
+		    }
+	        box1 += "</div>";
+	        
+	        //반복문으로 출력하셈
+		    for(value of values){
+		    	//전체 다 나오게 
+                //앞에 if문을 써줘야함 null이 아니면, null이 아니면,,
+		    	if(value.fileList!=null && value.fileList.length>0){
+				    for(image of value.fileList){
+					    box2 +=  "<img src='/upload/" +image.uuid+ "' width='100' height='100'>";
+				    }
+					box2 += "<br>"
+		    	}
+				    //여기서부터 순서 절대 바꾸지 마세요!!! 
+				    box2 += "<div>" +value.userid+ "님</div>";
+				    box2 += "<div>내용:  " +value.content+ "</div>";
+				    box2 += "<div>메뉴:  " +value.name+ "</div>";
+				    box2 +="<div>날짜:  " +value.regDate2+ "</div>";
+
+				    //$(score).appendTo($(div));
+				    //별 이미지 나오게 하는 법
+				    for(i=1;i<=value.score;i++){
+				    	  box2 +="<img src='/images/star.png'>";
+				    }
+				    
+				    //로그인이 되어 있으면 수정, 삭제
+				    //value에 있는 idx 를 가져옴
+				    //그 idx를 가져와서  196번째 줄에 있음 //그 링크로 보낸다...
+				    if(session_user==value.userid){
+				    				    
+				     	box2 +="<button onclick='search("+value.idx+");'>수정</button>";
+				     	box2 +="<button onclick='search2("+value.idx+");'>삭제</button>";
+					  
+				    }
+			        box2 += "<br><hr>";
+				 
+			}
+		
+	        box2 += "</div>";
+	        $("#result2").html(box1 + box2 + "<button id='toggle' onclick='reViewUpdate()'>더보기</button>");
+	        $("#box1").css("display","none");
+	        
+	        
+	        
+		  //더보기 기능 사라짐
+	        if(count > values.length){
+	        	
+	        	$("#toggle").remove();
+	        }
+
+	      
+		
+	        //----------------------------------------------------------------
+		  }) 
+		   
+
+		  
+		  .catch(function (error) {
+		    // 에러 핸들링
+		    console.log(error);
+		  })
+		  .finally(function () {
+		    // 항상 실행되는 영역
+		  });
+	}
+	
+	function reViewUpdate(){
+		count += 5;
+		getReview();
+		
+		
+		
+		
+	}
+	
+	
+	
 </script>
 <style type="text/css">
 .tag {
 	text-decoration: none;
 	color: #000;
 }
-.line{
-border:2px solid gray;
+
+.line {
+	border: 2px solid gray;
 }
 </style>
 </head>
@@ -390,6 +452,8 @@ border:2px solid gray;
 			</div>
 		</form>
 	</div>
+
+<!-- 리뷰에서 (n)개 갖고 오는것 -->
 	<input type="hidden" id="count" th:value="${count}" />
 	<!--<button th:onclick="|location.href='@{/review/update(idx=64)}'|">asdf</button>-->
 </body>

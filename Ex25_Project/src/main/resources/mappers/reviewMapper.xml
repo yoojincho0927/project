@@ -51,6 +51,20 @@
 	 WHERE o.IDX =r."REF" AND m.NAME = o.NAME AND c.IDX = m."REF" AND c.IDX =#{idx} order by r.idx desc
 	</select>
 	
+	<!-- review 테이블에 대한 Company와 파일까지 같이 가져오게 함 : 원하는 개수만 가져오기-->
+	<select id="selectCompany2" parameterType="hashmap" resultType="Review">
+	select rownum, R.* from
+		( 
+		 SELECT r.* ,m.NAME 
+		 FROM REVIEW r ,ORDERMENU o,MENU m,COMPANY c 
+	 	 WHERE o.IDX =r."REF" AND m.NAME = o.NAME AND c.IDX = m."REF" AND c.IDX =#{idx} order by r.idx desc
+	 	) R
+	 where
+	 	<![CDATA[
+	 	rownum<=#{count}
+	 	]]> 
+	</select>
+	
 	
 	<!-- 저장하기 -->
 	<insert id="insert" parameterType="Review">
@@ -87,7 +101,7 @@
 	</select>
 	
 	
-	<select id="selectReviewRank" parameterType="int" resultType="Double">
+	<select id="selectReviewRank" parameterType="int" resultType="double">
 		SELECT nvl(round(avg(r.score),2),0) rank  FROM REVIEW r ,ORDERMENU o ,MENU m ,COMPANY c 
 		WHERE r."REF" = o.IDX AND o.NAME = m.NAME AND m."REF" = c.IDX AND c.IDX = #{idx}
 	</select>	

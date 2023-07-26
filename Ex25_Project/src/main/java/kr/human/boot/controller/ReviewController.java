@@ -133,8 +133,8 @@ public class ReviewController {
 	// menuweb 에 대한 axios를 만드는 주소창 만들기 @ResponseBody를 써줘야하고 return값은 주소창이 아니여야함
 	// ->엑시오스에서 주소창을 써주기 때문
 	// axios.get('/review/selectByRefReview') 주소창을 정확하게 써줘야함
-	// 어렵다...
-	@GetMapping(value = "/selectByRefReview")
+	// 전체가져오기
+	/*@GetMapping(value = "/selectByRefReview")
 	@ResponseBody
 	public List<Review> list2(HttpSession session) {
 		int idx = Integer.parseInt(session.getAttribute("idx").toString());
@@ -143,6 +143,17 @@ public class ReviewController {
 		
 		log.info("=".repeat(100));
 		return reviewService.selectCompany(idx);
+	}*/
+
+	@GetMapping(value = "/selectByRefReview2")
+	@ResponseBody
+	public List<Review> revice2(@RequestParam(defaultValue = "5")int count, HttpSession session) {
+		int idx = Integer.parseInt(session.getAttribute("idx").toString());
+		log.info("=".repeat(100));
+		log.info("결과 : {}", reviewService.selectCompany2(idx,count));
+		List<Review> vo= reviewService.selectCompany2(idx, count);
+		log.info("=".repeat(100));
+		return vo;
 	}
 
 	/*
