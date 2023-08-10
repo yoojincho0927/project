@@ -222,7 +222,8 @@ public class ReviewController {
 		// 글 수정
 		reviewService.update(review);
 
-		fileService.deleteByRef(review.getIdx()); // 이전 파일 모두 지우고 //update 파일 할때 삭제를 해주고, 해당 ref를 받아와야 한다.......
+		fileService.deleteByRef(review.getIdx()); // 이전 파일 모두 지우고
+        //update 파일 할때 삭제를 해주고, 해당 ref를 받아와야 한다.......
 
 		// review.getIdx()이게 해당 ref
 		// 파일처리
